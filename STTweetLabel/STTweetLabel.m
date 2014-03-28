@@ -99,8 +99,8 @@
     
     _attributesText = @{NSForegroundColorAttributeName: self.textColor, NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
     _attributesHandle = @{NSForegroundColorAttributeName: [UIColor redColor], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
-    _attributesHashtag = @{NSForegroundColorAttributeName: [[UIColor alloc] initWithWhite:170.0/255.0 alpha:1.0], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
-    _attributesLink = @{NSForegroundColorAttributeName: [[UIColor alloc] initWithRed:129.0/255.0 green:171.0/255.0 blue:193.0/255.0 alpha:1.0], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
+    _attributesHashtag = @{NSForegroundColorAttributeName: [[UIColor alloc] initWithRed:125.0/255.0 green:212.0/255.0 blue:173.0/255.0 alpha:1.0], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
+    _attributesLink = @{NSForegroundColorAttributeName: [[UIColor alloc] initWithRed:155.0/255.0 green:123.0/255.0 blue:172.0/255.0 alpha:1.0], NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14.0]};
     
     self.validProtocols = @[@"http", @"https"];
 }
@@ -131,8 +131,8 @@
     
     // Define a character set for the complete world (determine the end of the hot word)
     NSMutableCharacterSet *validCharactersSet = [NSMutableCharacterSet alphanumericCharacterSet];
-    [validCharactersSet removeCharactersInString:@"!@#$%^&*()-={[]}|;:',<>.?/"];
-    [validCharactersSet addCharactersInString:@"_"];
+    [validCharactersSet removeCharactersInString:@"!@#$%^&*()-={[]}|;:',<>?/"];
+    [validCharactersSet addCharactersInString:@"_."];
     
     _rangesOfHotWords = [[NSMutableArray alloc] init];
     
@@ -154,8 +154,8 @@
         
         [tmpText replaceCharactersInRange:range withString:@"%"];
         // If the hot character is not preceded by a alphanumeric characater, ie email (sebastien@world.com)
-        if (range.location > 0 && [tmpText characterAtIndex:range.location - 1] != ' ' && [tmpText characterAtIndex:range.location - 1] != '\n')
-            continue;
+//        if (range.location > 0 && [tmpText characterAtIndex:range.location - 1] != ' ' && [tmpText characterAtIndex:range.location - 1] != '\n')
+//            continue;
         
         // Determine the length of the hot word
         int length = (int)range.length;
@@ -171,7 +171,7 @@
         
         // Register the hot word and its range
         if (length > 1)
-            [_rangesOfHotWords addObject:@{@"hotWord": @(hotWord), @"range": [NSValue valueWithRange:NSMakeRange(range.location, length)]}];
+            [_rangesOfHotWords addObject:@{@"hotWord": @(hotWord), @"range": [NSValue valueWithRange:NSMakeRange(range.location - 1, length)]}];
     }
     
     [self determineLinks];
